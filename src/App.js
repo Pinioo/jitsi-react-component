@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import VideoConference from "./VideoConference";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+  const [displayName, setDisplayName] = React.useState('')
+  const [roomName, setRoomName] = React.useState('')
+
+  const [tmpDisplayName, setTmpDisplayName] = React.useState('')
+  const [tmpRoomName, setTmpRoomName] = React.useState('')
+
+  const handleSubmit = (event) => {
+    setDisplayName(tmpDisplayName)
+    setRoomName(tmpRoomName)
+    event.preventDefault()
+  }
+
+  const handleRoomChange = (event) => {
+    setTmpRoomName(event.target.value)
+  }
+
+  const handleDisplayChange = (event) => {
+    setTmpDisplayName(event.target.value)
+  }
+
+  if(displayName !== '' && roomName !== '') 
+    return <VideoConference displayName={displayName} roomName={roomName}/>
+  else
+    return <form onSubmit={handleSubmit}>
+      <label>
+        Display name: <input type="text" name="displayName" onChange={handleDisplayChange} />
+      </label><br />
+      <label>
+        Room name: <input type="text" name="roomName" onChange={handleRoomChange} />
+      </label><br />
+      <input type="submit" value="Join" />
+    </form>
+};
 
 export default App;
