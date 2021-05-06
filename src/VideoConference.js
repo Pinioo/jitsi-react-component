@@ -35,12 +35,12 @@ const VideoConference = (props) => {
         enableNoisyMicDetection: false,
         prejoinPageEnabled: false
       },
-      interfaceConfigOverwrite: {
-        TOOLBAR_BUTTONS: [
-            'microphone', 'camera', 'chat', 'settings'
-        ],
-        TOOLBAR_ALWAYS_VISIBLE: false
-      },
+      // interfaceConfigOverwrite: {
+      //   TOOLBAR_BUTTONS: [
+      //       'microphone', 'camera', 'chat', 'settings'
+      //   ],
+      //   TOOLBAR_ALWAYS_VISIBLE: false
+      // },
       parentNode: document.getElementById(jitsiContainerId)
     })
   }
