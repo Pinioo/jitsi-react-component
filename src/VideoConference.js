@@ -1,6 +1,7 @@
 import React from "react"
 
 const VideoConference = (props) => {
+  const userInfo = props.userInfo
   const jitsiContainerId = "jitsi-container-id"
   const [jitsi, setJitsi] = React.useState({})
 
@@ -24,23 +25,27 @@ const VideoConference = (props) => {
     setJitsi(createJistiMeet())
   }
 
+  const interfaceOverwrite = userInfo.adminRole === true ? {
+      TOOLBAR_ALWAYS_VISIBLE: false
+    }:{
+      TOOLBAR_BUTTONS: [
+          'microphone', 'camera', 'chat', 'settings'
+      ],
+      TOOLBAR_ALWAYS_VISIBLE: false
+    }
+
   const createJistiMeet = () => {
     return new window.JitsiMeetExternalAPI("meet.jit.si", {
-      roomName: props.roomName,
+      roomName: userInfo.roomName,
       userInfo: {
-        displayName: props.displayName
+        displayName: userInfo.displayName
       },
       configOverwrite: {
         hideConferenceSubject: true,
         enableNoisyMicDetection: false,
         prejoinPageEnabled: false
       },
-      // interfaceConfigOverwrite: {
-      //   TOOLBAR_BUTTONS: [
-      //       'microphone', 'camera', 'chat', 'settings'
-      //   ],
-      //   TOOLBAR_ALWAYS_VISIBLE: false
-      // },
+      interfaceConfigOverwrite: interfaceOverwrite,
       parentNode: document.getElementById(jitsiContainerId)
     })
   }
@@ -50,7 +55,7 @@ const VideoConference = (props) => {
     return () => jitsi?.dispose?.()
   }, [])
 
-  return <div id={jitsiContainerId} style={{ height:720, width: "40%" }} />
+  return <div id={jitsiContainerId} style={{ height:720, width: "100%" }} />
 }
 
 export default VideoConference

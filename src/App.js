@@ -2,35 +2,40 @@ import React from "react";
 import VideoConference from "./VideoConference";
 
 const App = () => {
-  const [displayName, setDisplayName] = React.useState('')
-  const [roomName, setRoomName] = React.useState('')
+  const [tmpUserInfo, setTmpUserInfo] = React.useState({
+    displayName: "",
+    roomName: "",
+    adminRole: false,
+  })
 
-  const [tmpDisplayName, setTmpDisplayName] = React.useState('')
-  const [tmpRoomName, setTmpRoomName] = React.useState('')
+  const [userInfo, setUserInfo] = React.useState(null)
+
+  const handleChange = (event) => {
+    const target = event.target
+    console.log(target)
+    if(target.type === "checkbox")
+      setTmpUserInfo({ ...tmpUserInfo, [target.name]: target.checked});
+    else
+      setTmpUserInfo({ ...tmpUserInfo, [target.name]: target.value});
+  }
 
   const handleSubmit = (event) => {
-    setDisplayName(tmpDisplayName)
-    setRoomName(tmpRoomName)
+    setUserInfo(tmpUserInfo)
     event.preventDefault()
   }
 
-  const handleRoomChange = (event) => {
-    setTmpRoomName(event.target.value)
-  }
-
-  const handleDisplayChange = (event) => {
-    setTmpDisplayName(event.target.value)
-  }
-
-  if(displayName !== '' && roomName !== '') 
-    return <VideoConference displayName={displayName} roomName={roomName}/>
+  if(userInfo) 
+    return <VideoConference userInfo={userInfo}/>
   else
     return <form onSubmit={handleSubmit}>
       <label>
-        Display name: <input type="text" name="displayName" onChange={handleDisplayChange} />
+        Display name: <input type="text" name="displayName" onChange={handleChange} />
       </label><br />
       <label>
-        Room name: <input type="text" name="roomName" onChange={handleRoomChange} />
+        Room name: <input type="text" name="roomName" onChange={handleChange} />
+      </label><br />
+      <label>
+        Are you admin?: <input type="checkbox" name="adminRole" onChange={handleChange} />
       </label><br />
       <input type="submit" value="Join" />
     </form>
